@@ -1,0 +1,183 @@
+{% extends '../../base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block content %}
+<div  class="pages-title section-padding">
+			<div  class="container">
+				<div  style="background:#40394a" class="row">
+					<div class="col-xs-12">
+						<div class="pages-title-text text-center">
+							<h2 style="color:#f4cca4">Cart</h2>
+							<ul class="text-left">
+								<li><a style="color:#d99879" href="\">Home </a></li>
+								<li style="color:#d99879"><span> // </span>Cart</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- pages-title-end -->
+		<!-- cart content section start -->
+		{% if not cart_items %}
+		<div style="font-size:18px; margin-bottom:300px;margin-top:30px" class="container alert alert-info text-center" role="alert">
+		<b>Your Cart Is Empty,&nbsp;&nbsp; <a href="{% url 'shop:shop' %}" style="color:#21094e;text-decoration: underline;">Go To Shop<a></b>
+		</div>
+		
+		{% else %}
+		<section style="background:#1c1427" class="pages cart-page section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div style="border-radius:20px;" class="table-responsive padding60">
+							<table class="wishlist-table text-center">
+								<thead>
+									<tr>
+										<th style="border-radius:20px 0 0 20px;">Image</th>
+										<th>Name</th>
+										<th>Price</th>
+										<th>quantity</th>
+										<th>Total Price</th>
+										<th style="border-radius:0 20px 20px 0;">Remove</th>
+									</tr>
+								</thead>
+								<tbody>
+                                    {% for cart_item in cart_items %}
+									<tr>
+										<td class="td-img text-center">
+											<a href="{{cart_item.product.get_prodcut_details_url}}"><img style="border-radius:10px;" width="100" height="100" src="{{cart_item.product.image.url}}" alt="Add Product" /></a>
+											
+										</td>
+										<td>
+										<div class="items-dsc">
+											<h5><a href="{{cart_item.product.get_prodcut_details_url}}">{{cart_item.product.name}}</a></h5>
+
+											{% if cart_item.variation.all %}
+												{% for item in cart_item.variation.all %}
+												<p>{{item.variation_category | capfirst}} : {{item.variation_value | capfirst}}</p>
+												{% endfor %}
+											{% endif %}
+											
+										</div>
+										</td>
+										<td>₦{{cart_item.product.price}}</td>
+										
+										<td>
+											<div class="plus-minus">
+												<a href="javascript:void(0)" class="update-cart-qty" data-product-id="{{ cart_item.product.id }}"
+													data-action="decrease">
+													<i class="fa fa-minus"></i>
+												</a>
+										
+												<input id="qty-{{ cart_item.product.id }}" value="{{cart_item.quantity}}" readonly>
+										
+												<a href="javascript:void(0)" class="update-cart-qty" data-product-id="{{ cart_item.product.id }}"
+													data-action="increase">
+													<i class="fa fa-plus"></i>
+												</a>
+											</div>					
+										</td>
+										<td>
+											₦<span id="subtotal-{{ cart_item.product.id }}">{{cart_item.sub_total}}</span>					
+										</td>
+										<td ><a href="{% url 'cart:remove_cart_item' cart_item.product.id cart_item.id %}" ><i style="background:#ba135d;color:#f4cca4" onclick="return confirm('Are you really want delete this?')" class="mdi mdi-close"></i></a>
+										</td>
+									</tr>
+									{% endfor %}
+									<tr>
+									</tr>
+								</tbody>
+							</table><br><br><br>
+							<div class="cart-form-text pay-details table-responsive">
+								<table>
+									<tbody style="color:#f4cca4">
+										<tr>
+											<th style="font-size:18px">Cart Subtotal</th>
+											<td style="font-size:18px">₦<span id="total">{{total}}</span></td>
+										</tr>
+										<tr>
+											<th style="font-size:18px">Shipping and Handing</th>
+											<td style="font-size:18px">₦{{handing}}</td>
+										</tr>
+										<tr>
+											<th style="font-size:18px">Vat</th>
+											<td style="font-size:18px">₦<span id="vat">{{vat}}</span></td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<th style="color:#d99879; font-size:22px">Order total</th>
+											<td style="color:#d99879; font-size:22px">₦<span id="order_total">{{order_total}}</span></td>
+										</tr>
+									</tfoot>
+								</table>
+								</div>
+								<br><br><br>
+								<div  class="list-btn text-center">
+									<a href="{% url 'orders:checkout' %}" class="btn" style="background:#f4cca4;color:#1c1427; text-transform:capitalize; font-size:18px; width:60%"><b>Checkout</b></a><br><br>
+									<a href="{% url 'shop:shop' %}" class="btn btn-warning"    style=" background:none;color:#f4cca4; text-transform:capitalize; font-size:18px; width:60%">continue shopping</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <br>
+				
+			</div>
+		</section>
+		{% endif %}
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+			$(document).on('click', '.update-cart-qty', function (e) {
+				e.preventDefault();
+				var productId = $(this).data('product-id');
+				var action = $(this).data('action');
+				var url = "/cart/add_cart/" + productId + "/"; // Make sure this matches your URL path
+
+				$.ajax({
+					url: url,
+					type: "POST",
+					data: {
+						'action': action,
+						'csrfmiddlewaretoken': '{{ csrf_token }}'
+					},
+					success: function (response) {
+						if (response.status === 'success') {
+							// 1. Update the quantity number for that specific product
+							// Note: Make sure 'productId' matches the one you clicked
+							$('#qty-' + productId).val(response.qty);
+							$('#qty-' + productId).text(response.qty); // Just in case it's a span, not an input
+
+							// 2. Update the Subtotal for that specific row (if you have one)
+							$('#subtotal-' + productId).text('₦' + response.sub_total);
+
+							// 3. Update the Grand Totals at the bottom
+							$('#total').text(response.total);
+							$('#vat').text(response.vat);
+							$('#order_total').text(response.order_total);
+
+							// 4. Update the Cart Icon count
+							$('.cart-count').text(response.cart_count);
+
+						} else if (response.status === 'deleted') {
+							// If item was 1 and user clicked minus, refresh to show "Cart Empty"
+							location.reload();
+						}
+					}
+					// success: function (response) {
+					// 	if (response.status === 'success') {
+					// 		// Update the quantity input
+					// 		$('#qty-' + productId).val(response.qty);
+					// 		// Update the row subtotal
+					// 		$('#subtotal-' + productId).text(response.sub_total);
+					// 		// Update the bottom totals
+					// 		$('#cart-total').text(response.total);
+					// 		$('#order-total').text(response.order_total);
+					// 	} else if (response.status === 'deleted') {
+					// 		location.reload(); // If item removed, just refresh
+					// 	}
+					// }
+				});
+			});
+		</script>
+{% endblock content %}

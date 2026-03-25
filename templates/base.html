@@ -1,0 +1,680 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}E - S H O P{% endblock title %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/logo.jpg' %}">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png' %}">
+    <!-- Place favicon.ico in the root directory -->
+    <!-- google fonts -->
+    <!-- CSS only -->
+    
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,900,700,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+    <!-- all css here -->
+    <!-- bootstrap v3.3.6 css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- animate css -->
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <!-- pe-icon-7-stroke -->
+    <link rel="stylesheet" href="{% static 'css/materialdesignicons.min.css' %}">
+    <!-- pe-icon-7-stroke -->
+    <link rel="stylesheet" href="{% static 'css/jquery.simpleLens.css' %}">
+    <!-- jquery-ui.min css -->
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+    <!-- meanmenu css -->
+    <link rel="stylesheet" href="{% static 'css/meanmenu.min.css' %}">
+    <!-- nivo.slider css -->
+    <link rel="stylesheet" href="{% static 'css/nivo-slider.css' %}">
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+    <!-- style css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- modernizr js -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
+
+
+    
+    <style> 
+        #searchh input[type=text] {
+        width: 150px;
+        margin-top:10px;
+        margin-bottom:10px;
+        box-sizing: border-box;
+        border: 2px solid #f4cca4;
+        border-radius: 4px;
+        font-size: 16px;
+        color:#1c1427;
+        background-color: #fff;
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+        }
+
+        #searchh input[type=text]:focus {
+        width: 80%;
+        }
+
+        .carousel-item img {
+    height: 400px; /* Adjust this height to fit your design */
+    object-fit: cover; /* This prevents the image from looking stretched */
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5); /* Makes text readable */
+    bottom: 20px;
+    border-radius: 8px;
+}
+
+
+    </style>
+
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=ATDakGEFESlSq0xbOzxw0W-dZUWrKfiedaKAFHEk0QKfsUeeR_9j6G1A78TUmvFJuMvz3ArZroEobPHY&currency=USD"></script>
+    
+</head>
+     <!-- the previous body style was background:#40394a -->
+<body style="background:#e4e4e4" ></body>
+
+    <!-- header section start -->
+    <header style="background:#1c1427" class="header-one header-two">
+        <div style="background:#1c1427" class="header-top-two">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="middel-top">
+                            {% if user.id is None %}
+                            <div class="left floatleft">
+                                <p style="color:#f4cca4"><b>Welcome Guest!</b></p>
+                            </div>
+                            {% else %}
+                            <div class="left floatleft">
+                                <p style="color:#f4cca4"><b>Welcome {{user.first_name | capfirst}}!</b></p>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="middel-top clearfix">
+                            <ul class="clearfix right floatright">
+                                <li>
+                                    <a href="{% if user.is_authenticated %}{% url 'accounts:dashboard' %}{% else %}{% url 'accounts:login' %}{% endif %}">
+                                        <i class="mdi mdi-account"></i>                                </a>
+                                    {% if user.id is None %}
+                                    <ul style="background:#484848">
+                                        <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                                        <li><a href="{% url 'accounts:register' %}">Registar</a></li>
+                                    </ul>
+                                    {% else %}
+                                    <ul style="background:#313131">
+                                        <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+                                        <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                                    </ul>
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    <a style="color:#f4cca4" href="#"><i class="mdi mdi-settings"></i></a>
+                                    <ul style="background:#1c1427">
+                                        <li><a href="{% url 'accounts:dashboard' %}">My account</a></li>
+                                        <li><a href="{% url 'cart:cart' %}">My cart</a></li>
+                                        <li><a href="#">My wishlist</a></li>
+                                        <li><a href="{% url 'orders:checkout' %}">Check out</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!--
+                            <div class="right floatright">
+                               
+                                     <form action="{% url 'shop:search' %}" method="GET" >
+                                    <button style="color:#d99879" type="submit"><i class="mdi mdi-magnify"></i></button>
+                                    <input type="text" placeholder="Search..." name="keyword"/>
+                                    </form>
+                            -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="background:#40394a">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form id="searchh" action={% url 'shop:search' %} method="GET">
+                        <input  type="text" name="keyword" placeholder="Search...">
+                        <button style="height:49px; margin-bottom:6px; background:#2E7D32; margin-left:-1px; border:None"
+                            class="btn btn-success" type="submit">
+                           <i style="color:#d99879" class="fa fa-search"></i>
+                        </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="{% static '2ndmedia/logo.jpeg' %}" alt="Hasbiy Food Store"
+                                style="max-height: 80px; width: auto; background: white; padding: 10px; border-radius: 4px; box-shadow: 0px 2px 5px rgba(0,0,0,0.2);">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="header-middel">
+                        <div class="mainmenu">
+                            <nav>
+                                <ul>
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="{% url 'shop:shop' %}">Shop</a></li>
+                                    <li><a href="#">Category <i class="mdi mdi-arrow-down"></i></a>
+                                        <ul class="dropdown">
+                                            <li><a href="{% url 'shop:shop' %}">All</a></li>
+                                            {% for category in categories %}
+                                            <li><a href="{{ category.get_category_slug_url }}">{{category.name}}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
+                                    <li><a href="{% url 'about:about' %}">About</a></li>
+                                    <li><a href="{% url 'contact:contact_page' %}">Contact</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- mobile menu start -->
+                        <div class="mobile-menu-area">
+                            <div class="mobile-menu">
+                                <nav id="dropdown">
+                                    <ul>
+                                        <li><a style="color:#1c1427" href="\">Home</a></li>
+                                        <li><a style="color:#1c1427" href="{% url 'shop:shop' %}">Shop</a></li>
+                                        <li><a style="color:#1c1427" href="{% url 'shop:shop' %}">Category</a>
+                                            <ul class="dropdown">
+                                                <li><a style="color:#1c1427" href="{% url 'shop:shop' %}">All</a></li>
+                                                {% for category in categories %}
+                                                <li><a style="color:#1c1427"
+                                                        href="{{ category.get_category_slug_url }}">{{category.name}}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        <li><a style="color:#1c1427" href="{% url 'blog:post_list' %}">Blog</a></li>
+                                        <li><a style="color:#1c1427" href="{% url 'about:about' %}">About</a></li>
+                                        <li><a style="color:#1c1427" href="{% url 'contact:contact_page' %}">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="cart-itmes">
+                        <a class="cart-itme-a" href="{% url 'cart:cart' %}">
+        
+                            <i class="mdi mdi-cart"></i>
+                            {{quantityyy}} items : <strong>₦{{totalll}}</strong>
+                        </a>
+                        <div class="cartdrop">
+                            {% for x in cart_itemsss %}
+                            <div class="sin-itme clearfix">
+                                <a style="color:#f4cca4" href="{% url 'cart:remove_cart_item' x.product.id x.id %}"
+                                    onclick="return confirm('Are you really want delete this?')"><i style="background:#ba135d"
+                                        class="mdi mdi-close"></i></a>
+                                <a class="cart-img" href="{{x.product.get_prodcut_details_url}}"><img
+                                        style="height:108px;width:100%" src="{{x.product.image.url}}" alt="" /></a>
+                                <div class="menu-cart-text floatright">
+                                    <a href="{{x.product.get_prodcut_details_url}}">
+                                        <h5>{{x.product.name}}</h5>
+                                    </a>
+        
+                                    {% if x.variation.all %}
+                                    {% for item in x.variation.all %}
+                                    <span>{{item.variation_category | capfirst}} : {{item.variation_value | capfirst}}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <span>Price for each : ₦{{x.product.price}}</span>
+                                    <span>Quantity : {{x.quantity}}</span>
+                                    <strong>₦{{x.sub_total}}</strong>
+                                </div>
+                            </div>
+        
+                            {% endfor %}
+        
+                            <div class="total">
+                                <span>total <strong>= ₦{{totalll}}</strong></span>
+                            </div><br>
+                            {% if '/cart/' not in request.path %}
+                            <a style="background:#40394a;color:#f4cca4" class="out-menu" href="{% url 'cart:cart' %}">Go To
+                                Cart</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="container text-center">
+            <div class="row" style="display: flex; align-items: center;">
+                <div class="col-sm-2">
+                    <div>
+                        <div class="logo">
+                            <a href="/">
+                                <img src="{% static '2ndmedia/logo.jpeg' %}" alt="Hasbiy Food Store"
+                                    style="max-height: 80px; width: auto; background: white; padding: 5px; border-radius: 4px; box-shadow: 0px 2px 5px rgba(0,0,0,0.2);">
+                            </a>
+                        </div>             
+                     </div>
+                <div class="col-sm-7">
+                    <div class="header-middel">
+                        <div class="mainmenu">
+                            <nav >
+                                <ul>
+                                    <li ><a href="/">Home</a></li>
+                                    <li><a href="{% url 'shop:shop' %}">Shop</a></li>
+                                    <li><a href="#">Category <i class="mdi mdi-arrow-down"></i></a>
+                                        <ul class="dropdown">
+                                            <li><a href="{% url 'shop:shop' %}">All</a></li>
+                                            <-- {% for category in categories %}
+                                            <li><a href="{{ category.get_category_slug_url }}">{{category.name}}</a></li>
+                                            {% endfor %} --
+                                            {% for category in categories %}
+                                            <li>
+                                                <a href="{{ category.get_category_slug_url }}">{{ category.name }}</a>
+                                            
+                                                {% if category.subcategories.all %}
+                                                <ul class="dropdown">
+                                                    {% for sub in category.subcategories.all %}
+                                                    <li>
+                                                        <a href="{{ sub.get_category_slug_url }}">{{ sub.name }}</a>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% endif %}
+                                            
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li><a href="{% url 'blog:post_list' %}">Blog</a></li>
+                                    <li><a href="{% url 'about:about' %}">About</a></li>
+                                    <-- <li><a href="templates/contact/contact.html">Contact</a></li> --
+                                    <li><a href="{% url 'contact:contact_page' %}">Contact</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        !-- mobile menu start --
+                        <div class="mobile-menu-area">
+                            <div class="mobile-menu">
+                                <nav  id="dropdown">
+                                    <ul  >
+                                        <li><a style="color:#1c1427" href="/">Home</a></li>
+                                        <li><a style="color:#1c1427" href="{% url 'shop:shop' %}">Shop</a></li>
+                                        <li><a style="color:#1c1427" href="{% url 'shop:shop' %}">Category</a>
+                                            <ul class="dropdown">
+                                                <li><a style="color:#1c1427" href="{% url 'shop:shop' %}">All</a></li>
+                                                {% for category in categories %}
+                                                <li><a style="color:#1c1427" href="{{ category.get_category_slug_url }}">{{category.name}}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        <li><a style="color:#1c1427" href="{% url 'blog:post_list' %}">Blog</a></li>
+                                        <li><a style="color:#1c1427" href="{% url 'about:about' %}">About</a></li>
+                                        <li><a style="color:#1c1427" href="{% url 'contact:contact_page' %}">Contact</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="cart-itmes">
+                        <a class="cart-itme-a" href="{% url 'cart:cart' %}">
+
+                            <i class="mdi mdi-cart"></i>
+                            {{quantityyy}} items : <strong>₦{{totalll}}</strong>
+                        </a>
+                        <div class="cartdrop">
+                            {% for x in cart_itemsss %}
+                            <div class="sin-itme clearfix">
+                                <a style="color:#f4cca4" href="{% url 'cart:remove_cart_item' x.product.id x.id %}" onclick="return confirm('Are you really want delete this?')"><i style="background:#ba135d" class="mdi mdi-close"></i></a>
+                                <a class="cart-img" href="{{x.product.get_prodcut_details_url}}"><img style="height:108px;width:100%" src="{{x.product.image.url}}" alt="" /></a>
+                                <div class="menu-cart-text floatright">
+                                    <a href="{{x.product.get_prodcut_details_url}}">
+                                        <h5>{{x.product.name}}</h5>
+                                    </a>
+                                    
+                                    {% if x.variation.all %}
+                                        {% for item in x.variation.all %}
+                                        <span>{{item.variation_category | capfirst}} : {{item.variation_value | capfirst}}</span>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <span>Price for each : ₦{{x.product.price}}</span>
+                                    !-- <span>Quantity : {{x.quantity}}</span> --
+                                    <span id="cart-count">{{ cart_count }}</span>
+                                    <strong>₦{{x.sub_total}}</strong>
+                                </div>
+                            </div>
+                            
+                            {% endfor %}
+                            
+                            <div class="total">
+                                <span>total <strong>= ₦{{totalll}}</strong></span>
+                            </div><br>
+                            {% if '/cart/' not in request.path %}
+                            <a style="background:#838285;color:#f4cca4" class="out-menu" href="{% url 'cart:cart' %}">Go To Cart</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </header>
+    <br>
+    <!--===================== Content ====================-->
+    {% block content %}
+
+    {% endblock content %}
+
+
+    <footer style="background: #150f1d; color: #ffffff; padding-top: 60px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="footer-logo mb-3">
+                        <img src="{% static '2ndmedia/logo.jpeg' %}" alt="Hasbiy Logo"
+                            style="max-height: 50px; background: white; padding: 5px; border-radius: 4px;">
+                    </div>
+                    <p style="color: #bbb; line-height: 1.8;">
+                        Hasbiy Food Store is your most trusted source for original provisions and groceries. We bring the
+                        market to your doorstep with honesty and fair pricing.
+                    </p>
+                    <div class="social-links mt-3">
+                        <a href="#" style="color: #f4cca4; margin-right: 15px; font-size: 20px;"><i
+                                class="mdi mdi-facebook"></i></a>
+                        <a href="#" style="color: #f4cca4; margin-right: 15px; font-size: 20px;"><i
+                                class="mdi mdi-instagram"></i></a>
+                        <a href="#" style="color: #f4cca4; font-size: 20px;"><i class="mdi mdi-whatsapp"></i></a>
+                    </div>
+                </div>
+    
+                <div class="col-md-2 col-sm-6 mb-4">
+                    <h5 class="fw-bold mb-4" style="color: #f4cca4;">Information</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="{% url 'about:about' %}" style="color: #bbb; text-decoration: none; padding: 10px;">About Us</a></li>
+                        <li><a href="{% url 'contact:contact_page' %}" style="color: #bbb; text-decoration: none; padding: 10px;">Contact
+                                Us</a></li>
+                        <li><a href="#" style="color: #bbb; text-decoration: none; padding: 10px;">Terms & Conditions</a></li>
+                        <li><a href="#" style="color: #bbb; text-decoration: none; padding: 10px;">Privacy Policy</a></li>
+                    </ul>
+                </div>
+    
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <h5 class="fw-bold mb-4" style="color: #f4cca4;">Support</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#" style="color: #bbb; text-decoration: none; padding: 10px;">Delivery Information</a></li>
+                        <li><a href="#" style="color: #bbb; text-decoration: none; padding: 10px;">Return Policy</a></li>
+                        <li><a href="#" style="color: #bbb; text-decoration: none; padding: 10px;">Bulk Orders</a></li>
+                        <li><a href="#" style="color: #bbb; text-decoration: none; padding: 10px;">FAQ</a></li>
+                    </ul>
+                </div>
+    
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <h5 class="fw-bold mb-4" style="color: #f4cca4;">Find Us</h5>
+                    <p style="color: #bbb;"><i class="mdi mdi-map-marker" style="color: #f4cca4;"></i> Lagos, Nigeria</p>
+                    <p style="color: #bbb;"><i class="mdi mdi-phone" style="color: #f4cca4;"></i> +234 812 345 6789</p>
+                    <p style="color: #bbb;"><i class="mdi mdi-email" style="color: #f4cca4;"></i> info@hasbiyfood.com</p>
+                </div>
+            </div>
+        </div>
+    
+        <div style="background: #150f1d; padding: 20px 0; margin-top: 40px;" class="footer-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <p style="color:#d99879; margin-bottom: 0;">
+                            Created By <span style="color:#f4cca4"><b>Lixxon_tech</b></span> 2026 &copy; All Rights
+                            Reserved.
+                        </p>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <img src="{% static 'img/footer/payment.png' %}" alt="Payment Methods"
+                            style="max-height: 30px; opacity: 0.8;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <style>
+        .footer-links li {
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+    
+        .footer-links li a:hover {
+            color: #f4cca4 !important;
+            padding-left: 5px;
+        }
+    
+        </style>
+    <!-- footer section end -->
+
+    <!-- all js here -->
+    <!-- jquery latest version -->
+    <script src="{% static 'js/vendor/jquery-1.12.3.min.js' %}"></script>
+    <!-- bootstrap js -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- owl.carousel js -->
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <!-- meanmenu js -->
+    <script src="{% static 'js/jquery.meanmenu.js' %}"></script>
+    <!-- countdown JS -->
+    <script src="{% static 'js/countdown.js' %}"></script>
+    <!-- nivo.slider JS -->
+    <script src="{% static 'js/jquery.nivo.slider.pack.js' %}"></script>
+    <!-- simpleLens JS -->
+    <script src="{% static 'js/jquery.simpleLens.min.js' %}"></script>
+    <!-- jquery-ui js -->
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    <!-- load-more js -->
+    <script src="{% static 'js/load-more.js' %}"></script>
+    <!-- plugins js -->
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <!-- main js -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script>
+        $(document).ready(function(){
+            $('.thumb a').click(function(e){
+                e.preventDefault();
+                $('.mainImage img').attr('src', $(this).attr("href"));
+                $('.mainImage a').attr('data-lens-image', $(this).attr("data-lens-image"));
+            })
+        })
+    </script>
+    <!-- 1. Use a newer jQuery
+    <script src="https://code.jquery.com"></script>
+    
+     2. Use Popper (Required for Bootstrap 4) -->
+    <script src="https://cdn.jsdelivr.net"></script>
+    
+    <!-- 3. Use Bootstrap 4.6 JS -->
+    <script src="https://cdn.jsdelivr.net"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script>
+        $(document).on('click', '.add-to-cart-btn', function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation(); // Prevents the click from firing twice
+
+            var btn = $(this);
+            var productId = btn.data('product-id');
+
+            // Disable button immediately so user can't spam click
+            btn.prop('disabled', true);
+
+            $.ajax({
+                url: "/cart/add_cart/" + productId + "/",
+                type: "POST",
+                data: {
+                    'quantity': $('#qty-' + productId).val() || 1, // Ensure this ID matches your HTML
+                    'action': action, // This is needed for the + and - buttons
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: 'json', // Forces JS to expect JSON
+                success: function (response) {
+                    if (response.status === 'success') {
+                        // Update the navbar count
+                        $('#nav-cart-count').text(response.cart_count);
+
+                        // Visual feedback
+                        var originalText = btn.html();
+                        btn.html("Added ✅").css('background', '#28a745');
+
+                        setTimeout(function () {
+                            btn.html(originalText).css('background', '').prop('disabled', false);
+                        }, 2000);
+                    }
+                },
+                error: function (xhr) {
+                    btn.prop('disabled', false);
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    </script> -->
+    <!-- <script>
+        $(document).on('click', '.update-cart-qty', function (e) {
+            e.preventDefault();
+            var productId = $(this).data('product-id');
+            var action = $(this).data('action');
+            var url = "{% url 'cart:add_cart' 0 %}".replace('0', productId);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    'action': action,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        // 1. Update the input box
+                        $('#qty-' + productId).val(response.qty);
+                        // 2. Update the line subtotal
+                        $('#subtotal-' + productId).text(response.sub_total);
+                        // 3. Update the bottom summary
+                        $('#sub-total-display').text(response.total);
+                        $('#vat-display').text(response.vat);
+                        $('#order-total-display').text(response.order_total);
+                    } else if (response.status === 'deleted') {
+                        location.reload();
+                    }
+                },
+                error: function () {
+                    alert("Something went wrong. Reloading...");
+                    location.reload();
+                }
+            });
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                let productId = this.dataset.productId;
+
+                fetch(`/cart/add_cart/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+
+                        // Optional feedback
+                        this.innerText = "Added ✅";
+                    })
+                    .catch(error => console.error(error));
+            });
+        });
+
+        // CSRF helper
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                let cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).on('click', '.add-to-cart-btn', function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var pId = btn.data('product-id');
+
+            // Grabs quantity from input if it exists, otherwise 1
+            var qty = $('#qty-' + pId).val() || 1;
+
+            $.ajax({
+                url: "/cart/add_cart/" + pId + "/",
+                type: "POST",
+                data: {
+                    'quantity': qty,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        // Update navbar count if you have an element with this ID
+                        $('#nav-cart-count').text(response.cart_count);
+
+                        // Button feedback
+                        var oldHtml = btn.html();
+                        btn.html("Added ✅").css('background', '#28a745');
+                        setTimeout(function () {
+                            btn.html(oldHtml).css('background', '#297d02');
+                        }, 2000);
+                    }
+                },
+                error: function () {
+                    alert("Error adding to cart.");
+                }
+            });
+        });
+
+        // Quantity Math Function
+            function changeQty(productId, amount) {
+                var qtyInput = $('#qty-' + productId);
+                var currentVal = parseInt(qtyInput.val());
+                if (!isNaN(currentVal)) {
+                    var newVal = currentVal + amount;
+                    if (newVal >= 1) qtyInput.val(newVal);
+                }
+            }
+    </script>
+</body>
+
+</html>

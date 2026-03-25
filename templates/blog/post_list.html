@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="sidebar-item mb-4">
+                <h4>Search</h4>
+                <form action="{% url 'blog:post_list' %}" method="get">
+                    <input type="text" name="q" class="form-control" placeholder="Search posts..."
+                        value="{{ request.GET.q }}">
+                </form>
+            </div>
+
+            <div class="sidebar-item">
+                <h4>Categories</h4>
+                <ul class="list-group">
+                    <a href="{% url 'blog:post_list' %}"
+                        class="list-group-item {% if not request.GET.category %}active{% endif %}">All Posts</a>
+                    {% for cat in categories %}
+                    <a href="{% url 'blog:post_list' %}?category={{ cat.slug }}"
+                        class="list-group-item {% if request.GET.category == cat.slug %}active{% endif %}">
+                        {{ cat.name }}
+                    </a>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-sm-6 col-md-4 mb-4">
+                    <div class="l-blog-text">
+                        <div class="banner">
+                            <a href="{% url 'blog:post_detail' post.slug %}">
+                                {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}"
+                                    style="width: 100%; height: 200px; object-fit: cover;" />
+                                {% else %}
+                                <img src="{% static 'img/blog/default.jpg' %}" alt="Default Image" />
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="s-blog-text">
+                            <h4><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h4>
+                            <span>By : <a href="#">{{ post.author.username }}</a> | Category: <a href="#">{{
+                                    post.category.name }}</a></span>
+                            <p>{{ post.body|truncatewords:15 }}</p>
+                        </div>
+                        <div class="date-read clearfix">
+                            <a href="#"><i class="mdi mdi-clock"></i> {{ post.created_at|date:"M d, Y" }}</a>
+                            <a href="{% url 'blog:post_detail' post.slug %}">read more</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="alert alert-info">No posts found matching your criteria.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
