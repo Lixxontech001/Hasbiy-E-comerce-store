@@ -51,37 +51,53 @@ It is designed for supermarkets, mini-marts, and local grocery businesses to sel
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-link>
+git clone [https://github.com/Lixxontech001/GroceryHub/
 cd groceryhub
 
 ```
 Create virtual environment:
 py -m venv venv
 
+
+```bash
 Activate environment:
 .\venv\Scripts\activate
 
+```
 Install dependencies:
+```bash
 pip install -r requirements.txt
 
+```
 Run server:
+```bash
 py manage.py runserver
 
+```
 Open in browser:
+```bash
 http://localhost:8000/
+
+```
+
 
 🔐 Admin Access
 
 
 Create admin user:
 
+```
+```bash
 py manage.py createsuperuser
 
 
+```
 Access admin panel:
 
+```bash
 http://localhost:8000/admin/
 
+```
 
 Use Case
 
@@ -105,4 +121,6 @@ Multi-vendor support
 
 If you want a custom version of this project for your business, feel free to reach out.
 
+```
+```bash
 ⭐ If you found this useful, give it a star!
