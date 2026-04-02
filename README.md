@@ -54,7 +54,7 @@ It is designed for supermarkets, mini-marts, and local grocery businesses to sel
 git clone <your-repo-link>
 cd groceryhub
 
-```bash
+```
 Create virtual environment:
 py -m venv venv
 
